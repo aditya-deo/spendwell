@@ -27,6 +27,7 @@
     "bcrypt": "^5.1.1",
     "better-sqlite3": "^11.7.2",
     "bootstrap": "^5.3.3",
-    "electron-squirrel-startup": "^1.0.1"
+    "electron-squirrel-startup": "^1.0.1",
+    "node-xlsx": "^0.24.0"
   }
 }

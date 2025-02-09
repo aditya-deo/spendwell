@@ -17,7 +17,18 @@
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Spendwell</a>
         <div class="d-flex ms-auto me-2">
-          <button class="btn btn-dark" type="button">Import Expenses</button>
+          <!-- Button trigger modal -->
+          <!-- <button type="button" class="btn btn-primary">
+            Launch demo modal
+          </button> -->
+          <button
+            class="btn btn-dark"
+            datype="button"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Import Expenses
+          </button>
         </div>
         <button
           class="navbar-toggler"
@@ -59,6 +70,47 @@
       </div>
     </nav>
 
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title fs-5" id="exampleModalLabel">
+              Import Expenses
+            </h4>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group">
+              <input
+                type="file"
+                class="form-control"
+                id="xlFileSubmitInp"
+                aria-describedby="xlFileSubmitInp"
+                aria-label="Upload"
+                accept=".xlsx, .xls, .csv"
+              />
+              <button class="btn btn-dark" type="button" id="xlFileSubmitBtn">
+                Import
+              </button>
+            </div>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+    <script src="./scripts/inputFileHandler.js"></script>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
