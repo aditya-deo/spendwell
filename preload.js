@@ -14,7 +14,7 @@ contextBridge.exposeInMainWorld("api", {
   loginUser: (data) => {
     const user = authenticateUser(data.username, data.password);
     if (user) {
-      return { success: true, userId: user.id };
+      return { success: true, username: user.Username, userid: user.id };
     }
     return { success: false };
   },

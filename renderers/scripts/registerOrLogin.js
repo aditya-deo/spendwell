@@ -21,6 +21,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
 
   const response = await api.loginUser({ username, password });
   if (response.success) {
+    sessionStorage.setItem("username", response.username);
     window.location.href = "./index.html";
   } else {
     alert("Invalid credentials");

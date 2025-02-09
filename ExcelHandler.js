@@ -45,14 +45,21 @@ const PrepareTransactionSaveQuery = (data, start, end) => {
         .split(",")[0];
 
   const insertStmt = db.prepare(
-    "INSERT INTO TRANSACTIONS (TransactionDate, Particulars, Debit, Credit, Balance, Username, CreatedDateTime) VALUES (?, ?, ?, ?, ?, 'Usr01', DateTime())"
+    "INSERT INTO TRANSACTIONS (TransactionDate, Particulars, Debit, Credit, Balance, Username, CreatedDateTime) VALUES (?, ?, ?, ?, ?, ?, DateTime())"
   );
 
   const insertTransaction = db.transaction(() => {
     for (let i = start; i < end; i++) {
       let date = new Date(data[i][0]).toLocaleString("en-in").split(",")[0];
       if (date > dateToCompare) {
-        insertStmt.run(date, data[i][1], data[i][3], data[i][4], data[i][5]);
+        insertStmt.run(
+          date,
+          data[i][1],
+          data[i][3],
+          data[i][4],
+          data[i][5],
+          sessionStorage.getItem("username")
+        );
       }
     }
   });
