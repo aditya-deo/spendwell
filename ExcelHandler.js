@@ -26,45 +26,51 @@ const ProcessWorkbookData = (workbook) => {
       row[4] == "Credit" &&
       row[5] == "Balance"
   );
-  var query = PrepareTransactionSaveQuery(
+  var insertresult = PrepareTransactionSaveQuery(
     workbookdata,
     headerRow + 2,
     workbookdata.length
   );
+  return insertresult;
 };
 
 const PrepareTransactionSaveQuery = (data, start, end) => {
-  const stmt = db.prepare(
-    "SELECT MAX(TransactionDate) AS MaxDate from Transactions;"
-  );
-  const maxdate = stmt.get().MaxDate;
-  const dateToCompare = maxdate
-    ? new Date(maxdate).toLocaleString("en-in").split(",")[0]
-    : new Date("1999-01-01T00:00:00.000Z")
-        .toLocaleString("en-in")
-        .split(",")[0];
+  try {
+    const stmt = db.prepare(
+      "SELECT MAX(TransactionDate) AS MaxDate from Transactions;"
+    );
+    const maxdate = stmt.get().MaxDate;
+    const dateToCompare = maxdate
+      ? new Date(maxdate)
+      : new Date("1999-01-01T00:00:00.000Z");
 
-  const insertStmt = db.prepare(
-    "INSERT INTO TRANSACTIONS (TransactionDate, Particulars, Debit, Credit, Balance, Username, CreatedDateTime) VALUES (?, ?, ?, ?, ?, ?, DateTime())"
-  );
+    const insertStmt = db.prepare(
+      "INSERT INTO TRANSACTIONS (TransactionDate, Particulars, Debit, Credit, Balance, Username, CreatedDateTime) VALUES (?, ?, ?, ?, ?, ?, DateTime())"
+    );
 
-  const insertTransaction = db.transaction(() => {
-    for (let i = start; i < end; i++) {
-      let date = new Date(data[i][0]).toLocaleString("en-in").split(",")[0];
-      if (date > dateToCompare) {
-        insertStmt.run(
-          date,
-          data[i][1],
-          data[i][3],
-          data[i][4],
-          data[i][5],
-          sessionStorage.getItem("username")
-        );
+    const insertTransaction = db.transaction(() => {
+      for (let i = start; i < end; i++) {
+        let date = new Date(data[i][0]);
+        date.setHours(23, 0, 0, 0); //jugaad
+        if (date > dateToCompare) {
+          insertStmt.run(
+            date.toISOString(),
+            data[i][1],
+            data[i][3],
+            data[i][4],
+            data[i][5],
+            sessionStorage.getItem("username")
+          );
+        }
       }
-    }
-  });
+    });
 
-  insertTransaction();
+    insertTransaction();
+    return true;
+  } catch (err) {
+    alert("Error saving data!");
+    return false;
+  }
 };
 
 module.exports = {
