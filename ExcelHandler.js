@@ -43,7 +43,6 @@ const PrepareTransactionSaveQuery = (data, start, end) => {
     const dateToCompare = maxdate
       ? new Date(maxdate)
       : new Date("1999-01-01T00:00:00.000Z");
-
     const insertStmt = db.prepare(
       "INSERT INTO TRANSACTIONS (TransactionDate, Particulars, Debit, Credit, Balance, Username, CreatedDateTime) VALUES (?, ?, ?, ?, ?, ?, DateTime())"
     );

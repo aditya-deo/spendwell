@@ -1,6 +1,7 @@
 const { contextBridge } = require("electron");
 const { registerUser, authenticateUser } = require("./auth");
 const excelHandler = require("./ExcelHandler");
+const dashboardDataHandler = require("./DashboardDataHandler");
 
 contextBridge.exposeInMainWorld("api", {
   registerUser: (data) => {
@@ -21,4 +22,5 @@ contextBridge.exposeInMainWorld("api", {
   getCurrentAuthenticatedUser: () => auth.getCurrentAuthenticatedUser(),
   logoutAndReturnNullUser: () => auth.logoutAndReturnNullUser(),
   ParseExcelAndSave: (file) => excelHandler.ParseExcelAndSave(file),
+  GetTop100Data: () => dashboardDataHandler.GetTop100Data(),
 });

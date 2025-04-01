@@ -1,116 +1,145 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World!</title>
-    <link
-      rel="stylesheet"
-      href="../node_modules/bootstrap/dist/css/bootstrap.min.css"
-    />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="script-src 'self' 'unsafe-inline';"
-    />
-  </head>
-  <body>
-    <nav class="navbar navbar-dark bg-dark fixed-top">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Spendwell</a>
-        <div class="d-flex ms-auto me-2">
-          <!-- Button trigger modal -->
-          <!-- <button type="button" class="btn btn-primary">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World!</title>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <meta http-equiv="Content-Security-Policy" content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;"/>
+</head>
+
+<body>
+  <nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Spendwell</a>
+      <div class="d-flex ms-auto me-2">
+        <!-- Button trigger modal -->
+        <!-- <button type="button" class="btn btn-primary">
             Launch demo modal
           </button> -->
-          <button
-            class="btn btn-dark"
-            datype="button"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-          >
-            Import Expenses
-          </button>
-        </div>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasDarkNavbar"
-          aria-controls="offcanvasDarkNavbar"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
+        <button class="btn btn-dark" datype="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Import Expenses
         </button>
-        <div
-          class="offcanvas offcanvas-end text-bg-dark"
-          tabindex="-1"
-          id="offcanvasDarkNavbar"
-          aria-labelledby="offcanvasDarkNavbarLabel"
-        >
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">
-              Aditya Deo
-            </h5>
-            <button
-              type="button"
-              class="btn-close btn-close-white"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="offcanvas-body">
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#"
-                  >Logout</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
       </div>
-    </nav>
-
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title fs-5" id="exampleModalLabel">
-              Import Expenses
-            </h4>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="input-group">
-              <input
-                type="file"
-                class="form-control"
-                id="xlFileSubmitInp"
-                aria-describedby="xlFileSubmitInp"
-                aria-label="Upload"
-                accept=".xlsx, .xls, .csv"
-              />
-              <button class="btn btn-dark" type="button" id="xlFileSubmitBtn">
-                Import
-              </button>
-            </div>
-          </div>
-          <div class="modal-footer"></div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+        aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+        aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">
+            Aditya Deo
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Logout</a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-    <script src="./scripts/inputFileHandler.js"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+  </nav>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title fs-5" id="exampleModalLabel">
+            Import Expenses
+          </h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <input type="file" class="form-control" id="xlFileSubmitInp" aria-describedby="xlFileSubmitInp"
+              aria-label="Upload" accept=".xlsx, .xls, .csv" />
+            <button class="btn btn-dark" type="button" id="xlFileSubmitBtn">
+              Import
+            </button>
+          </div>
+        </div>
+        <div class="modal-footer"></div>
+      </div>
+    </div>
+  </div>
+  <div id="dataGrid" style="margin-top: 100px; text-align: center;">
+    <div class="container">
+      <div class="row" id="filterSection">
+        <div class="col-sm">
+          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm" id="latest100Transactions">
+          <div class="card bg-light mb-3" style="max-height: 300px;overflow-y: scroll;">
+            <div class="card-header">Last 100 Transactions</div>
+            <div class="card-body">
+              <table class="table table-light" id="tblLatest100Transactions" style="font-size: xx-small;">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Particulars</th>
+                    <th scope="col">Credit</th>
+                    <th scope="col">Debit</th>
+                    <th scope="col">Balance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm" id="pieChart">
+          <div class="card bg-light mb-3" style="max-height: 300px;align-items: center; padding: 5px;">
+            <canvas id="dvPieChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm" id="dataCard01">
+          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+        </div>
+        <div class="col-sm" id="dataCard02">
+          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+        </div>
+        <div class="col-sm" id="dataCard03">
+          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm" id="expensePerDayOrMonth">
+          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+        </div>
+        <div class="col-sm" id="top5ExpenditureCategories">
+          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm" id="dataCard04">
+          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+        </div>
+        <div class="col-sm" id="dataCard05">
+          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+        </div>
+        <div class="col-sm" id="dataCard06">
+          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="./scripts/inputFileHandler.js"></script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./scripts/chartHandler.js"></script>
+</body>
+
 </html>
