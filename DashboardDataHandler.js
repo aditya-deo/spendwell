@@ -2,8 +2,9 @@ const db = require("./database");
 
 const GetTop100Data = ()=>{
     try{
+        const username = sessionStorage.getItem("username");
         const stmt = db.prepare(
-            "SELECT * FROM TRANSACTIONS ORDER BY ID DESC LIMIT 100;"
+            `SELECT * FROM TRANSACTIONS WHERE Username = '${username}' ORDER BY ID DESC LIMIT 100;`
         );
         const data = stmt.all();
         return {success:true, data:data};
