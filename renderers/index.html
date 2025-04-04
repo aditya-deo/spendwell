@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Hello World!</title>
+  <title>Spendwell</title>
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
   <meta http-equiv="Content-Security-Policy" content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;"/>
 </head>
@@ -105,21 +105,71 @@
       </div>
       <div class="row">
         <div class="col-sm" id="dataCard01">
-          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+          <div class="card bg-light mb-3" style="max-height: 300px; padding: 5px;">
+            <p><h5>Highest Single Time Expense</h5></p>
+            <p><h4 id="headerHighestSingleTimeExpense"></h4></p>
+          </div>
         </div>
         <div class="col-sm" id="dataCard02">
-          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+          <div class="card bg-light mb-3" style="max-height: 300px; padding: 5px;">
+            <p><h5>Top Payee by Amount</h5></p>
+            <p><h4 id="headerTopPayeeByAmount"></h4></p>
+          </div>
         </div>
         <div class="col-sm" id="dataCard03">
-          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+          <div class="card bg-light mb-3" style="max-height: 300px; padding: 5px;">
+            <p><h5>Top Payee by Frequency</h5></p>
+            <p><h4 id="headerTopPayeeByFrequency"></h4></p>
+          </div>
+        </div>
+        <div class="col-sm" id="dataCard03">
+          <div class="card bg-light mb-3" style="max-height: 300px; padding: 5px;">
+            <p><h5>Most Expensive Day</h5></p>
+            <p><h4 id="headerMostExpensiveDay"></h4></p>
+          </div>
         </div>
       </div>
       <div class="row">
         <div class="col-sm" id="expensePerDayOrMonth">
-          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+          <div class="card bg-light mb-3" style="max-height: 300px">
+            <canvas id="dvLineChart"></canvas>
+          </div>
         </div>
-        <div class="col-sm" id="top5ExpenditureCategories">
-          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+        <div class="col-sm" id="transactionStatistics">
+          <div class="card bg-light mb-3" style="max-height: 300px">
+            <div class="card-header">Transaction Statistics</div>
+            <table class="table table-light" id="tblLatest100Transactions" style="font-size: small;">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Parameter</th>
+                  <th scope="col">Value (INR)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Total Number of Transactions</td>
+                  <td id="tdTotalTransactions"></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Average Number of Transactions Per Day</td>
+                  <td id="tdAvgTransactionsPerDay"></td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Total Expenditure</td>
+                  <td id="tdTotalExpenditure"></td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>Average Expenditure Per Day</td>
+                  <td id="tdAvgExpenditurePerDay"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       <div class="row">

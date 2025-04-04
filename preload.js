@@ -2,6 +2,7 @@ const { contextBridge } = require("electron");
 const { registerUser, authenticateUser } = require("./auth");
 const excelHandler = require("./ExcelHandler");
 const dashboardDataHandler = require("./DashboardDataHandler");
+const DashboardDataHandler = require("./DashboardDataHandler");
 
 contextBridge.exposeInMainWorld("api", {
   registerUser: (data) => {
@@ -23,4 +24,9 @@ contextBridge.exposeInMainWorld("api", {
   logoutAndReturnNullUser: () => auth.logoutAndReturnNullUser(),
   ParseExcelAndSave: (file) => excelHandler.ParseExcelAndSave(file),
   GetTop100Data: () => dashboardDataHandler.GetTop100Data(),
+  GetHighestSingleTimeExpense: () => dashboardDataHandler.GetHighestSingleTimeExpense(),
+  GetTopPayeeByAmount: () => dashboardDataHandler.GetTopPayeeByAmount(),
+  GetTopPayeeByFrequency: () => dashboardDataHandler.GetTopPayeeByFrequency(),
+  GetMostExpensiveDay: () => DashboardDataHandler.GetMostExpensiveDay(),
+  GetTransactionStatistics: () => DashboardDataHandler.GetTransactionStatistics(),
 });
