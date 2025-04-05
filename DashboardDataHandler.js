@@ -103,7 +103,7 @@ const GetTransactionStatistics = () => {
         const username = sessionStorage.getItem("username");
         const stmt = db.prepare(
             `SELECT COUNT(ID) as totalTransactions, 
-                COUNT(ID) / COUNT(DISTINCT(DATE(TRANSACTIONDATE))) AS avgTransactionsPerDay,
+                COUNT(ID) / cast(max(julianday(transactiondate)) - min(julianday(transactiondate)) + 1 as real) AS avgTransactionsPerDay,
                 AVG(DEBIT) as avgExpenditurePerDay, 
                 SUM(DEBIT) as totalExpenditure 
                 from Transactions
@@ -117,8 +117,51 @@ const GetTransactionStatistics = () => {
     }
 }
 
+const GetPast365DailyBalances = () => {
+    try{
+        const username = sessionStorage.getItem("username");
+        const stmt = db.prepare(
+            `SELECT  max(Balance) as balance, date( TransactionDate) as date
+            from Transactions WHERE Username = '${username}' group by date 
+            order by date limit 365;`
+        );
+        const data = stmt.all();
 
+        const balance = [];
+        const date = [];
+        data.forEach((d)=>{
+            balance.push(d.balance);
+            date.push(d.date);
+        })
+        return {success:true, data:{balance: balance, date: date}};
+    }catch(e){
+        alert(e);
+        return {failure:true, data:e};
+    }
+}
 
+const GetPast365DailyDebits = () => {
+    try{
+        const username = sessionStorage.getItem("username");
+        const stmt = db.prepare(
+            `SELECT  sum(Debit) as debit, date( TransactionDate) as date
+            from Transactions WHERE Username = '${username}' group by date 
+            order by date limit 365;`
+        );
+        const data = stmt.all();
+
+        const debit = [];
+        const date = [];
+        data.forEach((d)=>{
+            debit.push(d.debit);
+            date.push(d.date);
+        })
+        return {success:true, data:{debit: debit, date: date}};
+    }catch(e){
+        alert(e);
+        return {failure:true, data:e};
+    }
+}
 
 module.exports = {
     GetTop100Data: GetTop100Data,
@@ -127,4 +170,6 @@ module.exports = {
     GetTopPayeeByFrequency: GetTopPayeeByFrequency,
     GetMostExpensiveDay: GetMostExpensiveDay,
     GetTransactionStatistics: GetTransactionStatistics,
+    GetPast365DailyBalances: GetPast365DailyBalances,
+    GetPast365DailyDebits: GetPast365DailyDebits,
   };

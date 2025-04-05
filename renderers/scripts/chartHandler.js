@@ -18,66 +18,92 @@ const GetTop100Transactions =  async ()=>{
     }
 }
 
-const GetPieChart = () => {
-    // Get the canvas element
-    var ctx = document.getElementById("dvPieChart").getContext("2d");
+// const GetPieChart = () => {
+//     var ctx = document.getElementById("dvPieChart").getContext("2d");
 
-    // Sample financial data (stock prices)
-    const data = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-        datasets: [{
-            label: "Stock Price ($)",
-            data: [120, 135, 110, 140, 150, 160], // Sample values
-            borderColor: "blue",
-            backgroundColor: "rgba(0, 0, 255, 0.2)",
-            fill: true,
-            tension: 0.3  // Smooth curve
-        }]
-    };
+//     const data = {
+//         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+//         datasets: [{
+//             label: "Stock Price ($)",
+//             data: [120, 135, 110, 140, 150, 160],
+//             borderColor: "blue",
+//             backgroundColor: "rgba(0, 0, 255, 0.2)",
+//             fill: true,
+//             tension: 0.3 
+//         }]
+//     };
 
-    // Create the chart
-    const myChart = new Chart(ctx, {
-        type: "pie",  // Types: 'bar', 'line', 'pie', 'doughnut', etc.
-        data: data,
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { display: true }  // Show dataset labels
-            }
-        }
-    });
+//     const myChart = new Chart(ctx, {
+//         type: "pie",  
+//         data: data,
+//         options: {
+//             responsive: true,
+//             plugins: {
+//                 legend: { display: true } 
+//             }
+//         }
+//     });
 
-}
+// }
 
 const GetLineChart = () => {
-    // Get the canvas element
+
     var ctx = document.getElementById("dvLineChart").getContext("2d");
-
-    // Sample financial data (stock prices)
-    const data = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-        datasets: [{
-            label: "Stock Price ($)",
-            data: [120, 135, 110, 140, 150, 160], // Sample values
-            borderColor: "blue",
-            backgroundColor: "rgba(0, 0, 255, 0.2)",
-            fill: true,
-            tension: 0.3  // Smooth curve
-        }]
-    };
-
-    // Create the chart
-    const myChart = new Chart(ctx, {
-        type: "line",  // Types: 'bar', 'line', 'pie', 'doughnut', etc.
-        data: data,
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { display: true }  // Show dataset labels
+    var response = api.GetPast365DailyBalances();
+    if(response.success){
+        const data = {
+            labels: response.data.date,
+            datasets: [{
+                label: "Balance",
+                data: response.data.balance, 
+                borderColor: "green",
+                backgroundColor: "rgba(125, 255, 136, 0.2)",
+                fill: true,
+                tension: 0.3  
+            }]
+        };
+    
+        const myChart = new Chart(ctx, {
+            type: "line",  
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true }  
+                }
             }
-        }
-    });
+        });
+    }
+}
 
+const GetLineChart2 = () => {
+
+    var ctx = document.getElementById("dvLineChart2").getContext("2d");
+    var response = api.GetPast365DailyDebits();
+    if(response.success){
+        const data = {
+            labels: response.data.date,
+            datasets: [{
+                label: "Debit",
+                data: response.data.debit, 
+                borderColor: "red",
+                backgroundColor: "rgba(255, 148, 148, 0.2)",
+                fill: true,
+                tension: 0.3  
+            }]
+        };
+    
+        const myChart = new Chart(ctx, {
+            type: "line",  
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true }  
+                }
+            }
+        });
+    }
 }
 
 const getHighestSingleTimeExpense = async () => {
@@ -113,17 +139,18 @@ const getTransactionStatistics = async () => {
     const response = await api.GetTransactionStatistics();
     if(response.success){
         document.getElementById("tdTotalTransactions").innerText =  `${response.data.totalTransactions}`;
-        document.getElementById("tdAvgTransactionsPerDay").innerText =  `${response.data.avgTransactionsPerDay}`;
+        document.getElementById("tdAvgTransactionsPerDay").innerText =  `${response.data.avgTransactionsPerDay.toFixed(2)}`;
         document.getElementById("tdTotalExpenditure").innerText =  `Rs. ${response.data.totalExpenditure.toFixed(2)}`;
         document.getElementById("tdAvgExpenditurePerDay").innerText =  `Rs. ${response.data.avgExpenditurePerDay.toFixed(2)}`;
     }
 }
 
 GetTop100Transactions();
-GetPieChart();
+// GetPieChart();
 GetLineChart();
 getHighestSingleTimeExpense();
 getTopPayeeByAmount();
 getTopPayeeByFrequency();
 getMostExpensiveDay();
 getTransactionStatistics();
+GetLineChart2();

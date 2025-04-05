@@ -97,9 +97,42 @@
             </div>
           </div>
         </div>
-        <div class="col-sm" id="pieChart">
-          <div class="card bg-light mb-3" style="max-height: 300px;align-items: center; padding: 5px;">
-            <canvas id="dvPieChart"></canvas>
+        <div class="col-sm" id="dvTransactionStatistics">
+          <div class="card bg-light mb-3" style="max-height: 300px;">
+            <div class="card-header">Transaction Statistics</div>
+            <div class="card-body">
+              <table class="table table-light" id="tblTransactionStatistics" style="font-size: small;">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Parameter</th>
+                    <th scope="col">Value (INR)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Total Number of Transactions</td>
+                    <td id="tdTotalTransactions"></td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Average Number of Transactions Per Day</td>
+                    <td id="tdAvgTransactionsPerDay"></td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Total Expenditure</td>
+                    <td id="tdTotalExpenditure"></td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Average Expenditure Per Day</td>
+                    <td id="tdAvgExpenditurePerDay"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -131,44 +164,13 @@
       </div>
       <div class="row">
         <div class="col-sm" id="expensePerDayOrMonth">
-          <div class="card bg-light mb-3" style="max-height: 300px">
+          <div class="card bg-light mb-3" >
             <canvas id="dvLineChart"></canvas>
           </div>
         </div>
-        <div class="col-sm" id="transactionStatistics">
-          <div class="card bg-light mb-3" style="max-height: 300px">
-            <div class="card-header">Transaction Statistics</div>
-            <table class="table table-light" id="tblLatest100Transactions" style="font-size: small;">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Parameter</th>
-                  <th scope="col">Value (INR)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Total Number of Transactions</td>
-                  <td id="tdTotalTransactions"></td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Average Number of Transactions Per Day</td>
-                  <td id="tdAvgTransactionsPerDay"></td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Total Expenditure</td>
-                  <td id="tdTotalExpenditure"></td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Average Expenditure Per Day</td>
-                  <td id="tdAvgExpenditurePerDay"></td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="col-sm" id="expensePerDayOrMonth2">
+          <div class="card bg-light mb-3" >
+            <canvas id="dvLineChart2"></canvas>
           </div>
         </div>
       </div>

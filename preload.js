@@ -29,4 +29,6 @@ contextBridge.exposeInMainWorld("api", {
   GetTopPayeeByFrequency: () => dashboardDataHandler.GetTopPayeeByFrequency(),
   GetMostExpensiveDay: () => DashboardDataHandler.GetMostExpensiveDay(),
   GetTransactionStatistics: () => DashboardDataHandler.GetTransactionStatistics(),
+  GetPast365DailyBalances: () => DashboardDataHandler.GetPast365DailyBalances(),
+  GetPast365DailyDebits: () => DashboardDataHandler.GetPast365DailyDebits(),
 });
