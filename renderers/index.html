@@ -72,7 +72,45 @@
     <div class="container">
       <div class="row" id="filterSection">
         <div class="col-sm">
-          <div class="card bg-light mb-3" style="max-height: 300px"></div>
+          <div class="card bg-light mb-3" style="max-height: 300px">
+            <div class="container">
+              <div class="row">
+                <div class="col my-3">
+                  <div class="input-group input-group">
+                    <span class="input-group-text" id="inputGroup-sizing">From</span>
+                    <input id="inpDateFrom" type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                  </div>
+                </div>
+                <div class="col my-3">
+                  <div class="input-group input-group">
+                    <span class="input-group-text" id="inputGroup-sizing">To</span>
+                    <input id="inpDateTo" type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                  </div>
+                </div>
+                <div class="col my-3">
+                  <div class="input-group input-group">
+                    <span class="input-group-text" id="inputGroup-sizing">Payee</span>
+                    <input id='inpTextPayee' type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                  </div>
+                </div>
+                <div class="col my-3">
+                  <div class="input-group input-group">
+                    <span class="input-group-text" id="inputGroup-sizing">Over</span>
+                    <input id="inpNumberOver" type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                  </div>
+                </div>
+                <div class="col my-3">
+                  <div class="input-group input-group">
+                    <span class="input-group-text" id="inputGroup-sizing">Under</span>
+                    <input id="inpNumberUnder" type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                  </div>
+                </div>
+                <div class="col my-3">
+                  <button id="btnFilter" type="button" class="btn btn-dark" style="width: 100%;">Filter</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -191,6 +229,8 @@
   <script src="./scripts/inputFileHandler.js"></script>
   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-core.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-heatmap.min.js"></script> 
   <script src="./scripts/chartHandler.js"></script>
 </body>
 

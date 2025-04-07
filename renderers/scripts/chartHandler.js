@@ -1,5 +1,5 @@
-const GetTop100Transactions =  async ()=>{
-    const response = await api.GetTop100Data();
+const GetTop100Transactions =  async (filterObject)=>{
+    const response = await api.GetTop100Data(filterObject);
     if(response.success){
         var tbody = document.getElementById("tblLatest100Transactions").getElementsByTagName("tbody")[0];
         response.data.forEach(element => {
@@ -18,35 +18,7 @@ const GetTop100Transactions =  async ()=>{
     }
 }
 
-// const GetPieChart = () => {
-//     var ctx = document.getElementById("dvPieChart").getContext("2d");
-
-//     const data = {
-//         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-//         datasets: [{
-//             label: "Stock Price ($)",
-//             data: [120, 135, 110, 140, 150, 160],
-//             borderColor: "blue",
-//             backgroundColor: "rgba(0, 0, 255, 0.2)",
-//             fill: true,
-//             tension: 0.3 
-//         }]
-//     };
-
-//     const myChart = new Chart(ctx, {
-//         type: "pie",  
-//         data: data,
-//         options: {
-//             responsive: true,
-//             plugins: {
-//                 legend: { display: true } 
-//             }
-//         }
-//     });
-
-// }
-
-const GetLineChart = () => {
+const GetLineChart = (filterObject) => {
 
     var ctx = document.getElementById("dvLineChart").getContext("2d");
     var response = api.GetPast365DailyBalances();
@@ -62,7 +34,10 @@ const GetLineChart = () => {
                 tension: 0.3  
             }]
         };
-    
+        let chartStatus = Chart.getChart("dvLineChart"); // <canvas> id
+        if (chartStatus != undefined) {
+        chartStatus.destroy();
+        }
         const myChart = new Chart(ctx, {
             type: "line",  
             data: data,
@@ -76,7 +51,7 @@ const GetLineChart = () => {
     }
 }
 
-const GetLineChart2 = () => {
+const GetLineChart2 = (filterObject) => {
 
     var ctx = document.getElementById("dvLineChart2").getContext("2d");
     var response = api.GetPast365DailyDebits();
@@ -92,7 +67,10 @@ const GetLineChart2 = () => {
                 tension: 0.3  
             }]
         };
-    
+        let chartStatus = Chart.getChart("dvLineChart2"); // <canvas> id
+        if (chartStatus != undefined) {
+        chartStatus.destroy();
+        }
         const myChart = new Chart(ctx, {
             type: "line",  
             data: data,
@@ -106,28 +84,28 @@ const GetLineChart2 = () => {
     }
 }
 
-const getHighestSingleTimeExpense = async () => {
+const getHighestSingleTimeExpense = async (filterObject) => {
     const response = await api.GetHighestSingleTimeExpense();
     if(response.success){
         document.getElementById("headerHighestSingleTimeExpense").innerText = `Rs. ${response.data.highestSingleTimeExpense}`;
     }
 }
 
-const getTopPayeeByAmount = async () => {
+const getTopPayeeByAmount = async (filterObject) => {
     const response = await api.GetTopPayeeByAmount();
     if(response.success){
         document.getElementById("headerTopPayeeByAmount").innerText =  `${response.data.Payee}, Rs. ${response.data.TotalAmount}`;
     }
 }
 
-const getTopPayeeByFrequency = async () => {
+const getTopPayeeByFrequency = async (filterObject) => {
     const response = await api.GetTopPayeeByFrequency();
     if(response.success){
         document.getElementById("headerTopPayeeByFrequency").innerText =  `${response.data.Payee}, ${response.data.TotalCount} times`;
     }
 }
 
-const getMostExpensiveDay = async () => {
+const getMostExpensiveDay = async (filterObject) => {
     const response = await api.GetMostExpensiveDay();
     if(response.success){
         document.getElementById("headerMostExpensiveDay").innerText =  `${response.data.TransactionDate}, Rs. ${response.data.expenseOnThatDate}`;
@@ -135,7 +113,7 @@ const getMostExpensiveDay = async () => {
 }
 
 
-const getTransactionStatistics = async () => {
+const getTransactionStatistics = async (filterObject) => {
     const response = await api.GetTransactionStatistics();
     if(response.success){
         document.getElementById("tdTotalTransactions").innerText =  `${response.data.totalTransactions}`;
@@ -145,12 +123,30 @@ const getTransactionStatistics = async () => {
     }
 }
 
-GetTop100Transactions();
-// GetPieChart();
-GetLineChart();
-getHighestSingleTimeExpense();
-getTopPayeeByAmount();
-getTopPayeeByFrequency();
-getMostExpensiveDay();
-getTransactionStatistics();
-GetLineChart2();
+
+const loadDashboard = (filterObject) => {
+    GetTop100Transactions(filterObject);
+    // GetPieChart();
+    GetLineChart(filterObject);
+    getHighestSingleTimeExpense(filterObject);
+    getTopPayeeByAmount(filterObject);
+    getTopPayeeByFrequency(filterObject);
+    getMostExpensiveDay(filterObject);
+    getTransactionStatistics(filterObject);
+    GetLineChart2(filterObject);
+}
+
+
+document.getElementById("btnFilter").addEventListener("click", (e)=>{
+    e.preventDefault();
+    var filterObject = {};
+    if(document.getElementById("inpDateFrom").value.trim()) filterObject.inpDateFrom = document.getElementById("inpDateFrom").value.trim();
+    if(document.getElementById("inpDateTo").value.trim()) filterObject.inpDateTo = document.getElementById("inpDateTo").value.trim();
+    if(document.getElementById("inpTextPayee").value.trim()) filterObject.inpTextPayee = document.getElementById("inpTextPayee").value.trim();
+    if(document.getElementById("inpNumberOver").value.trim()) filterObject.inpNumberOver = document.getElementById("inpNumberOver").value.trim();
+    if(document.getElementById("inpNumberUnder").value.trim()) filterObject.inpNumberUnder = document.getElementById("inpNumberUnder").value.trim();
+    loadDashboard(filterObject);
+})
+
+
+loadDashboard({});

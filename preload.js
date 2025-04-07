@@ -23,7 +23,7 @@ contextBridge.exposeInMainWorld("api", {
   getCurrentAuthenticatedUser: () => auth.getCurrentAuthenticatedUser(),
   logoutAndReturnNullUser: () => auth.logoutAndReturnNullUser(),
   ParseExcelAndSave: (file) => excelHandler.ParseExcelAndSave(file),
-  GetTop100Data: () => dashboardDataHandler.GetTop100Data(),
+  GetTop100Data: (filterObject) => dashboardDataHandler.GetTop100Data(filterObject),
   GetHighestSingleTimeExpense: () => dashboardDataHandler.GetHighestSingleTimeExpense(),
   GetTopPayeeByAmount: () => dashboardDataHandler.GetTopPayeeByAmount(),
   GetTopPayeeByFrequency: () => dashboardDataHandler.GetTopPayeeByFrequency(),

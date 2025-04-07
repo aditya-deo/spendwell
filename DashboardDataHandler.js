@@ -1,11 +1,12 @@
 const db = require("./database");
 
-const GetTop100Data = ()=>{
+const GetTop100Data = (filterObject)=>{
     try{
         const username = sessionStorage.getItem("username");
-        const stmt = db.prepare(
-            `SELECT * FROM TRANSACTIONS WHERE Username = '${username}' ORDER BY ID DESC LIMIT 100;`
-        );
+        
+        const st = `SELECT * FROM TRANSACTIONS WHERE Username = '${username}'
+            ORDER BY ID DESC LIMIT 100;` 
+        const stmt = db.prepare(st);
         const data = stmt.all();
         return {success:true, data:data};
     }catch(e){
