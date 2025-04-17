@@ -3,11 +3,16 @@ const db = require("./database");
 const GetTop100Data = (filterObject)=>{
     try{
         const username = sessionStorage.getItem("username");
-        
-        const st = `SELECT * FROM TRANSACTIONS WHERE Username = '${username}'
-            ORDER BY ID DESC LIMIT 100;` 
+        var st = `SELECT * FROM TRANSACTIONS WHERE Username = '${username}' `
+        if(filterObject.inpDateFrom) st += `AND TransactionDate >= '${new Date(filterObject.inpDateFrom).toISOString()}' `
+        if(filterObject.inpDateTo) st +=  `AND TransactionDate <= '${new Date(filterObject.inpDateTo).toISOString()}' `
+        if(filterObject.inpTextPayee) st += `AND SUBSTRING(Particulars, 21, 10) LIKE '${filterObject.inpTextPayee}%' `
+        if(filterObject.inpNumberOver) st += `AND Debit >= '${filterObject.inpNumberOver}' `
+        if(filterObject.inpNumberUnder) st += `AND Debit <= '${filterObject.inpNumberUnder}' `
+        st+=`ORDER BY ID DESC LIMIT 100;` 
         const stmt = db.prepare(st);
-        const data = stmt.all();
+        var data = stmt.all();
+        if(!data) data = [];
         return {success:true, data:data};
     }catch(e){
         alert(e);
@@ -16,13 +21,20 @@ const GetTop100Data = (filterObject)=>{
 }
 
 
-const GetHighestSingleTimeExpense = () => {
+const GetHighestSingleTimeExpense = (filterObject) => {
     try{
         const username = sessionStorage.getItem("username");
+        var st = `SELECT max(Debit) as highestSingleTimeExpense FROM TRANSACTIONS WHERE Username = '${username}' `
+        if(filterObject.inpDateFrom) st += `AND TransactionDate >= '${new Date(filterObject.inpDateFrom).toISOString()}' `
+        if(filterObject.inpDateTo) st +=  `AND TransactionDate <= '${new Date(filterObject.inpDateTo).toISOString()}' `
+        if(filterObject.inpTextPayee) st += `AND SUBSTRING(Particulars, 21, 10) LIKE '${filterObject.inpTextPayee}%' `
+        if(filterObject.inpNumberOver) st += `AND Debit >= '${filterObject.inpNumberOver}' `
+        if(filterObject.inpNumberUnder) st += `AND Debit <= '${filterObject.inpNumberUnder}' `
         const stmt = db.prepare(
-            `SELECT max(Debit) as highestSingleTimeExpense FROM TRANSACTIONS WHERE Username = '${username}';`
+            st
         );
-        const data = stmt.get();
+        var data = stmt.get();
+        if(!data) data = {};
         return {success:true, data:data};
     }catch(e){
         alert(e);
@@ -30,22 +42,29 @@ const GetHighestSingleTimeExpense = () => {
     }
 }
 
-const GetTopPayeeByAmount = () => {
+const GetTopPayeeByAmount = (filterObject) => {
     try{
         const username = sessionStorage.getItem("username");
-        const stmt = db.prepare(
-            `SELECT 
+        var st = `SELECT 
                 SUBSTRING(Particulars, 21, 10) AS Payee,
                 SUM(Debit) AS TotalAmount
             FROM Transactions
             WHERE Debit IS NOT NULL  
             AND Particulars LIKE 'UPI%' 
-            AND Username = '${username}'
-            GROUP BY Payee
+            AND Username = '${username}' `
+            if(filterObject.inpDateFrom) st += `AND TransactionDate >= '${new Date(filterObject.inpDateFrom).toISOString()}' `
+            if(filterObject.inpDateTo) st +=  `AND TransactionDate <= '${new Date(filterObject.inpDateTo).toISOString()}' `
+            if(filterObject.inpTextPayee) st += `AND SUBSTRING(Particulars, 21, 10) LIKE '${filterObject.inpTextPayee}%' `
+            if(filterObject.inpNumberOver) st += `AND Debit >= '${filterObject.inpNumberOver}' `
+            if(filterObject.inpNumberUnder) st += `AND Debit <= '${filterObject.inpNumberUnder}' `
+            st += `GROUP BY Payee
             ORDER BY TotalAmount DESC
             LIMIT 1;`
+        const stmt = db.prepare(
+            st
         );
-        const data = stmt.get();
+        var data = stmt.get();
+        if(!data) data = {};
         return {success:true, data:data};
     }catch(e){
         alert(e);
@@ -53,22 +72,29 @@ const GetTopPayeeByAmount = () => {
     }
 }
 
-const GetTopPayeeByFrequency = () => {
+const GetTopPayeeByFrequency = (filterObject) => {
     try{
         const username = sessionStorage.getItem("username");
-        const stmt = db.prepare(
-            `SELECT 
+        var st = `SELECT 
                 SUBSTRING(Particulars, 21, 10) AS Payee,
                 count(SUBSTRING(Particulars, 21, 10)) AS TotalCount
             FROM Transactions
             WHERE Debit IS NOT NULL  
             AND Particulars LIKE 'UPI%' 
-            AND Username = '${username}'
-            GROUP BY Payee
+            AND Username = '${username}' `
+            if(filterObject.inpDateFrom) st += `AND TransactionDate >= '${new Date(filterObject.inpDateFrom).toISOString()}' `
+            if(filterObject.inpDateTo) st +=  `AND TransactionDate <= '${new Date(filterObject.inpDateTo).toISOString()}' `
+            if(filterObject.inpTextPayee) st += `AND SUBSTRING(Particulars, 21, 10) LIKE '${filterObject.inpTextPayee}%' `
+            if(filterObject.inpNumberOver) st += `AND Debit >= '${filterObject.inpNumberOver}' `
+            if(filterObject.inpNumberUnder) st += `AND Debit <= '${filterObject.inpNumberUnder}' `
+            st += `GROUP BY Payee
             ORDER BY TotalCount DESC
             LIMIT 1;`
+        const stmt = db.prepare(
+            st
         );
-        const data = stmt.get();
+        var data = stmt.get();
+        if(!data) data = {};
         return {success:true, data:data};
     }catch(e){
         alert(e);
@@ -76,22 +102,29 @@ const GetTopPayeeByFrequency = () => {
     }
 }
 
-const GetMostExpensiveDay = () => {
+const GetMostExpensiveDay = (filterObject) => {
     try{
         const username = sessionStorage.getItem("username");
-        const stmt = db.prepare(
-            `SELECT 
+        var st = `SELECT 
                 DATE(TransactionDate) as TransactionDate, 
                 SUM(debit) as expenseOnThatDate
             FROM Transactions
             WHERE Debit IS NOT NULL  
             AND Particulars LIKE 'UPI%'
-            AND Username = '${username}'
-            GROUP BY TransactionDate
+            AND Username = '${username}' `
+            if(filterObject.inpDateFrom) st += `AND TransactionDate >= '${new Date(filterObject.inpDateFrom).toISOString()}' `
+            if(filterObject.inpDateTo) st +=  `AND TransactionDate <= '${new Date(filterObject.inpDateTo).toISOString()}' `
+            if(filterObject.inpTextPayee) st += `AND SUBSTRING(Particulars, 21, 10) LIKE '${filterObject.inpTextPayee}%' `
+            if(filterObject.inpNumberOver) st += `AND Debit >= '${filterObject.inpNumberOver}' `
+            if(filterObject.inpNumberUnder) st += `AND Debit <= '${filterObject.inpNumberUnder}' `
+            st+=`GROUP BY TransactionDate
             Order by expenseOnThatDate DESC
             LIMIT 1;`
+        const stmt = db.prepare(
+            st
         );
-        const data = stmt.get();
+        var data = stmt.get();
+        if(!data) data = {};
         return {success:true, data:data};
     }catch(e){
         alert(e);
@@ -99,18 +132,25 @@ const GetMostExpensiveDay = () => {
     }
 }
 
-const GetTransactionStatistics = () => {
+const GetTransactionStatistics = (filterObject) => {
     try{
         const username = sessionStorage.getItem("username");
-        const stmt = db.prepare(
-            `SELECT COUNT(ID) as totalTransactions, 
-                COUNT(ID) / cast(max(julianday(transactiondate)) - min(julianday(transactiondate)) + 1 as real) AS avgTransactionsPerDay,
-                AVG(DEBIT) as avgExpenditurePerDay, 
-                SUM(DEBIT) as totalExpenditure 
+        var st = `SELECT IFNULL(COUNT(ID), 0) as totalTransactions, 
+                IFNULL(COUNT(ID) / cast(max(julianday(transactiondate)) - min(julianday(transactiondate)) + 1 as real), 0) AS avgTransactionsPerDay,
+                IFNULL(SUM(DEBIT) / COUNT(DISTINCT(transactiondate)), 0) as avgExpenditurePerDay, 
+                IFNULL(SUM(DEBIT), 0) as totalExpenditure 
                 from Transactions
-            WHERE Username = '${username}';`
+            WHERE Username = '${username}'`
+            if(filterObject.inpDateFrom) st += `AND TransactionDate >= '${new Date(filterObject.inpDateFrom).toISOString()}' `
+            if(filterObject.inpDateTo) st +=  `AND TransactionDate <= '${new Date(filterObject.inpDateTo).toISOString()}' `
+            if(filterObject.inpTextPayee) st += `AND SUBSTRING(Particulars, 21, 10) LIKE '${filterObject.inpTextPayee}%' `
+            if(filterObject.inpNumberOver) st += `AND Debit >= '${filterObject.inpNumberOver}' `
+            if(filterObject.inpNumberUnder) st += `AND Debit <= '${filterObject.inpNumberUnder}' `
+        const stmt = db.prepare(
+            st
         );
-        const data = stmt.get();
+        var data = stmt.get();
+        if(!data) data = {};
         return {success:true, data:data};
     }catch(e){
         alert(e);
@@ -126,7 +166,7 @@ const GetPast365DailyBalances = () => {
             from Transactions WHERE Username = '${username}' group by date 
             order by date limit 365;`
         );
-        const data = stmt.all();
+        var data = stmt.all();
 
         const balance = [];
         const date = [];
@@ -149,7 +189,7 @@ const GetPast365DailyDebits = () => {
             from Transactions WHERE Username = '${username}' group by date 
             order by date limit 365;`
         );
-        const data = stmt.all();
+        var data = stmt.all();
 
         const debit = [];
         const date = [];

@@ -2,6 +2,7 @@ const GetTop100Transactions =  async (filterObject)=>{
     const response = await api.GetTop100Data(filterObject);
     if(response.success){
         var tbody = document.getElementById("tblLatest100Transactions").getElementsByTagName("tbody")[0];
+        tbody.innerHTML = "";
         response.data.forEach(element => {
             const tr = `
             <tr id=${element.ID}>
@@ -85,41 +86,41 @@ const GetLineChart2 = (filterObject) => {
 }
 
 const getHighestSingleTimeExpense = async (filterObject) => {
-    const response = await api.GetHighestSingleTimeExpense();
+    const response = await api.GetHighestSingleTimeExpense(filterObject);
     if(response.success){
-        document.getElementById("headerHighestSingleTimeExpense").innerText = `Rs. ${response.data.highestSingleTimeExpense}`;
+        document.getElementById("headerHighestSingleTimeExpense").innerText = `Rs. ${GetDisplayString(response.data.highestSingleTimeExpense)}`;
     }
 }
 
 const getTopPayeeByAmount = async (filterObject) => {
-    const response = await api.GetTopPayeeByAmount();
+    const response = await api.GetTopPayeeByAmount(filterObject);
     if(response.success){
-        document.getElementById("headerTopPayeeByAmount").innerText =  `${response.data.Payee}, Rs. ${response.data.TotalAmount}`;
+        document.getElementById("headerTopPayeeByAmount").innerText =  `${GetDisplayString(response.data.Payee)}, Rs. ${GetDisplayString(response.data.TotalAmount)}`;
     }
 }
 
 const getTopPayeeByFrequency = async (filterObject) => {
-    const response = await api.GetTopPayeeByFrequency();
+    const response = await api.GetTopPayeeByFrequency(filterObject);
     if(response.success){
-        document.getElementById("headerTopPayeeByFrequency").innerText =  `${response.data.Payee}, ${response.data.TotalCount} times`;
+        document.getElementById("headerTopPayeeByFrequency").innerText =  `${GetDisplayString(response.data.Payee)}, ${GetDisplayString(response.data.TotalCount)} times`;
     }
 }
 
 const getMostExpensiveDay = async (filterObject) => {
-    const response = await api.GetMostExpensiveDay();
+    const response = await api.GetMostExpensiveDay(filterObject);
     if(response.success){
-        document.getElementById("headerMostExpensiveDay").innerText =  `${response.data.TransactionDate}, Rs. ${response.data.expenseOnThatDate}`;
+        document.getElementById("headerMostExpensiveDay").innerText =  `${GetDisplayString(response.data.TransactionDate)}, Rs. ${GetDisplayString(response.data.expenseOnThatDate)}`;
     }
 }
 
 
 const getTransactionStatistics = async (filterObject) => {
-    const response = await api.GetTransactionStatistics();
+    const response = await api.GetTransactionStatistics(filterObject);
     if(response.success){
-        document.getElementById("tdTotalTransactions").innerText =  `${response.data.totalTransactions}`;
-        document.getElementById("tdAvgTransactionsPerDay").innerText =  `${response.data.avgTransactionsPerDay.toFixed(2)}`;
-        document.getElementById("tdTotalExpenditure").innerText =  `Rs. ${response.data.totalExpenditure.toFixed(2)}`;
-        document.getElementById("tdAvgExpenditurePerDay").innerText =  `Rs. ${response.data.avgExpenditurePerDay.toFixed(2)}`;
+        document.getElementById("tdTotalTransactions").innerText =  `${GetDisplayString(response.data.totalTransactions)}`;
+        document.getElementById("tdAvgTransactionsPerDay").innerText =  `${GetDisplayString(response.data.avgTransactionsPerDay.toFixed(2))}`;
+        document.getElementById("tdTotalExpenditure").innerText =  `Rs. ${GetDisplayString(response.data.totalExpenditure.toFixed(2))}`;
+        document.getElementById("tdAvgExpenditurePerDay").innerText =  `Rs. ${GetDisplayString(response.data.avgExpenditurePerDay.toFixed(2))}`;
     }
 }
 
@@ -137,11 +138,17 @@ const loadDashboard = (filterObject) => {
 }
 
 
+const GetDisplayString = (str) => {
+    if(str)return str;
+    else return "-";
+}
+
+
 document.getElementById("btnFilter").addEventListener("click", (e)=>{
     e.preventDefault();
     var filterObject = {};
     if(document.getElementById("inpDateFrom").value.trim()) filterObject.inpDateFrom = document.getElementById("inpDateFrom").value.trim();
-    if(document.getElementById("inpDateTo").value.trim()) filterObject.inpDateTo = document.getElementById("inpDateTo").value.trim();
+    if(document.getElementById("inpDateTo").value.trim()) filterObject.inpDateTo = document.getElementById("inpDateTo").value.trim() + "T23:59:59";
     if(document.getElementById("inpTextPayee").value.trim()) filterObject.inpTextPayee = document.getElementById("inpTextPayee").value.trim();
     if(document.getElementById("inpNumberOver").value.trim()) filterObject.inpNumberOver = document.getElementById("inpNumberOver").value.trim();
     if(document.getElementById("inpNumberUnder").value.trim()) filterObject.inpNumberUnder = document.getElementById("inpNumberUnder").value.trim();
