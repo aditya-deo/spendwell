@@ -18,6 +18,8 @@ createProtectedWindow = () => {
     },
   });
 
+  mainWindow.setMenu(null);
+
   mainWindow.loadFile("renderers/index.html");
 };
 
@@ -31,6 +33,7 @@ createLoginWindow = () => {
       sandbox: false,
     },
   });
+  loginWindow.setMenu(null);
 
   loginWindow.loadFile("renderers/login.html");
 };

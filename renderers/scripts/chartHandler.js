@@ -22,7 +22,7 @@ const GetTop100Transactions =  async (filterObject)=>{
 const GetLineChart = (filterObject) => {
 
     var ctx = document.getElementById("dvLineChart").getContext("2d");
-    var response = api.GetPast365DailyBalances();
+    var response = api.GetPast365DailyBalances(filterObject);
     if(response.success){
         const data = {
             labels: response.data.date,
@@ -55,7 +55,7 @@ const GetLineChart = (filterObject) => {
 const GetLineChart2 = (filterObject) => {
 
     var ctx = document.getElementById("dvLineChart2").getContext("2d");
-    var response = api.GetPast365DailyDebits();
+    var response = api.GetPast365DailyDebits(filterObject);
     if(response.success){
         const data = {
             labels: response.data.date,

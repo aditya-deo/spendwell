@@ -158,13 +158,20 @@ const GetTransactionStatistics = (filterObject) => {
     }
 }
 
-const GetPast365DailyBalances = () => {
+const GetPast365DailyBalances = (filterObject) => {
     try{
         const username = sessionStorage.getItem("username");
-        const stmt = db.prepare(
-            `SELECT  max(Balance) as balance, date( TransactionDate) as date
-            from Transactions WHERE Username = '${username}' group by date 
+        var st = `SELECT  max(Balance) as balance, date( TransactionDate) as date
+            from Transactions WHERE Username = '${username}'`;
+            if(filterObject.inpDateFrom) st += `AND TransactionDate >= '${new Date(filterObject.inpDateFrom).toISOString()}' `
+            if(filterObject.inpDateTo) st +=  `AND TransactionDate <= '${new Date(filterObject.inpDateTo).toISOString()}' `
+            if(filterObject.inpTextPayee) st += `AND SUBSTRING(Particulars, 21, 10) LIKE '${filterObject.inpTextPayee}%' `
+            if(filterObject.inpNumberOver) st += `AND Debit >= '${filterObject.inpNumberOver}' `
+            if(filterObject.inpNumberUnder) st += `AND Debit <= '${filterObject.inpNumberUnder}' `
+            st += `group by date 
             order by date limit 365;`
+        const stmt = db.prepare(
+            st
         );
         var data = stmt.all();
 
@@ -181,13 +188,20 @@ const GetPast365DailyBalances = () => {
     }
 }
 
-const GetPast365DailyDebits = () => {
+const GetPast365DailyDebits = (filterObject) => {
     try{
         const username = sessionStorage.getItem("username");
-        const stmt = db.prepare(
-            `SELECT  sum(Debit) as debit, date( TransactionDate) as date
-            from Transactions WHERE Username = '${username}' group by date 
+        var st = `SELECT  sum(Debit) as debit, date( TransactionDate) as date
+            from Transactions WHERE Username = '${username}'`;
+            if(filterObject.inpDateFrom) st += `AND TransactionDate >= '${new Date(filterObject.inpDateFrom).toISOString()}' `
+            if(filterObject.inpDateTo) st +=  `AND TransactionDate <= '${new Date(filterObject.inpDateTo).toISOString()}' `
+            if(filterObject.inpTextPayee) st += `AND SUBSTRING(Particulars, 21, 10) LIKE '${filterObject.inpTextPayee}%' `
+            if(filterObject.inpNumberOver) st += `AND Debit >= '${filterObject.inpNumberOver}' `
+            if(filterObject.inpNumberUnder) st += `AND Debit <= '${filterObject.inpNumberUnder}' `
+            st += `group by date 
             order by date limit 365;`
+        const stmt = db.prepare(
+            st
         );
         var data = stmt.all();
 
