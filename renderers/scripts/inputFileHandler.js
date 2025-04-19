@@ -21,6 +21,7 @@ document
           bootstrap.Modal.getInstance(modalElement) ||
           new bootstrap.Modal(modalElement);
         modalInstance.hide();
+        alert("Success!");
       }
     };
 

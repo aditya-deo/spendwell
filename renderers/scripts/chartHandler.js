@@ -155,5 +155,16 @@ document.getElementById("btnFilter").addEventListener("click", (e)=>{
     loadDashboard(filterObject);
 })
 
+document.getElementById("btnRefreshDashboard").addEventListener("click", (e)=>{
+    e.preventDefault();
+    var filterObject = {};
+    document.getElementById("inpDateFrom").value = '';
+    document.getElementById("inpDateTo").value = '';
+    document.getElementById("inpTextPayee").value = '';
+    document.getElementById("inpNumberOver").value = '';
+    document.getElementById("inpNumberUnder").value = '';
+    loadDashboard(filterObject);
+})
+
 
 loadDashboard({});
