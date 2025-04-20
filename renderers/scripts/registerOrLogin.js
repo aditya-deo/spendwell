@@ -9,6 +9,13 @@ document
     const response = await api.registerUser({ username, password });
     if (response.success) {
       alert("User registered successfully!");
+      const response = await api.loginUser({ username, password });
+      if (response.success) {
+        sessionStorage.setItem("username", response.username);
+        window.location.href = "./index.html";
+      } else {
+        alert("Invalid credentials");
+      }
     } else {
       alert("Error: " + response.error);
     }

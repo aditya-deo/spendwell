@@ -37,7 +37,7 @@ const ProcessWorkbookData = (workbook) => {
 const PrepareTransactionSaveQuery = (data, start, end) => {
   try {
     const stmt = db.prepare(
-      "SELECT MAX(TransactionDate) AS MaxDate from Transactions;"
+      `SELECT MAX(TransactionDate) AS MaxDate from Transactions WHERE USERNAME = '${sessionStorage.getItem("username")}';`
     );
     const maxdate = stmt.get().MaxDate;
     const dateToCompare = maxdate
@@ -63,7 +63,7 @@ const PrepareTransactionSaveQuery = (data, start, end) => {
         }
       }
     });
-
+    
     insertTransaction();
     return true;
   } catch (err) {
