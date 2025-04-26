@@ -10,7 +10,7 @@ It helps you keep track of your daily expenses, manage your budget, and get a cl
 - 📊 Add straight from your account statements
 - 🔎 Filter and search your expenses
 - 💾 Data stored locally with SQLite (your data stays with you)
-- ⚡ Clean and lightweight U
+- ⚡ Clean and lightweight UI
 
 ---
 
